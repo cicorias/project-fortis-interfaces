@@ -1,5 +1,7 @@
 import request from 'request';
 
+console.error(`host is ${process.env.REACT_APP_SERVICE_HOST}`);
+
 function fetchGqlData(endpoint, gqlQueryBody, callback) {
     const host = process.env.REACT_APP_SERVICE_HOST;
     const { query, variables } = gqlQueryBody;
@@ -11,6 +13,8 @@ function fetchGqlData(endpoint, gqlQueryBody, callback) {
         withCredentials: false,
         body: { query, variables }
     };
+
+    console.error(`host is ${host}`);
 
     request(POST, callback);
 }

@@ -34,7 +34,7 @@ tmp
 *.config.json
 
 # Localhost config file
-.env
+.env.local
 
 # Editors
 .vscode/*
