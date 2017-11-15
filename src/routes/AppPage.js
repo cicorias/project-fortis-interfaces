@@ -19,7 +19,80 @@ export const AppPage = createReactClass({
     return this.getFlux().store("DataStore").getState();
   },
 
-  render() {
+  getInitialState() {
+    return {
+      firstName: null,
+      lastName: null,
+      loginName: null
+    }
+  },
+
+  componentWillMount(){
+    console.log(`**(Nav) Checking local storage...`)
+    if (localStorage.getItem('user')) {
+      const user = JSON.parse(localStorage.getItem('user')) /// TODO: error check - bad state 
+      console.log(`**(Nav) User found in local storage...`)
+      this.setState({
+        firstName: user.firstName || user.email,
+        lastName: user.lastName,
+        loginName: user.email
+      })
+    } else {
+      console.log(
+        `**(Nav) User not found in local storage. Checking if user is logged in...`
+      )
+      
+      fetch('http://localhost:8000/api/profile', {
+        // credentials: 'include'
+      }).then( response => {
+          if (response.ok){
+            const contentType = response.headers.get("content-type");
+            if(contentType && contentType.includes("application/json")) {
+              return response.json();
+            }
+            throw new TypeError("Oops, we haven't got JSON!");
+        } else {
+            throw new Error('Network response was not ok.');
+        }
+      }).then( json => {
+          const { firstName, lastName, email } = json.data.user;
+          localStorage.setItem('user', JSON.stringify(json.data.user))
+          this.setState({
+            firstName: firstName || email,
+            lastName: lastName,
+            loginName: email
+          })
+      }).catch( err => {
+          console.log(
+            `**(Nav) User is not logged. Redirecting to login page...`
+          )
+          console.log(err)
+          window.location.href = '/#/login'
+      })
+
+    }
+
+  },
+
+  render () {
+    if (this.state.firstName) {
+      console.log('attempting Full View load ...');
+      return this.renderFull()
+    } else {
+      console.log('attempting Login page load ...');
+      return this.renderLogin()
+    }
+  },
+
+  renderLogin() {
+    return (
+      <div>Hello world</div>
+    )
+  },
+
+  renderFull() {
+    console.log('attempting AppPage load ...');
+
     return (
       this.state.bbox.length ? 
       <MuiThemeProvider>
