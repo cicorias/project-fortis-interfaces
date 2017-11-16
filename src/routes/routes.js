@@ -4,7 +4,6 @@ import {EntryPage} from './EntryPage';
 import {FactsPage} from './FactsPage';
 import {PredictionsPage} from './PredictionsPage';
 import {AdminPage} from './AdminPage';
-import {LoginPage} from './LoginPage';
 import React from 'react';
 
 export const routes = (
@@ -13,6 +12,6 @@ export const routes = (
             <Route path="site/:siteKey/facts" component={FactsPage} />
             <Route path="site/:siteKey/predictions" component={PredictionsPage} />
             <Route path="site/:siteKey/admin" component={AdminPage} />
-            <Route path='/login' component={LoginPage} />
+            <Route path='/login'  />
     </Route>
 );

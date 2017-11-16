@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import createReactClass from 'create-react-class';
 import '../styles/Global.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -25,6 +26,11 @@ export const AppPage = createReactClass({
       lastName: null,
       loginName: null
     }
+  },
+
+  loginToADFS (e) {
+    e.preventDefault()
+    window.location = 'http://localhost:8000/auth/login-adfs'
   },
 
   componentWillMount(){
@@ -86,7 +92,17 @@ export const AppPage = createReactClass({
 
   renderLogin() {
     return (
-      <div>Hello world</div>
+      <MuiThemeProvider>
+      <div id="appn">
+        <Header id="header"/>
+          <Button
+            color="secondary"
+            onClick={this.loginToADFS}
+            className="cursor-pointer">
+            Login with ADFS
+          </Button>
+      </div>
+     </MuiThemeProvider>
     )
   },
 
@@ -96,7 +112,7 @@ export const AppPage = createReactClass({
     return (
       this.state.bbox.length ? 
       <MuiThemeProvider>
-      <div id="app">
+      <div id="appn">
         <Header id="header" flux={this.props.flux}
             {...this.props.params}
             title={this.state.title}
